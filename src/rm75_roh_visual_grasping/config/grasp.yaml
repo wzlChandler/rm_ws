@@ -1,0 +1,64 @@
+move_group: arm
+ee_link: Link7
+base_frame: base_link
+camera_target_topic: /yolo/target_point_camera
+
+execute: false
+execution_stage: full
+
+ball_radius: 0.020
+stable_count: 5
+stable_threshold: 0.010
+target_max_age: 0.5
+target_wait_timeout: 1.0
+workspace_x: [0.12, 0.42]
+workspace_y: [-0.18, 0.18]
+workspace_z: [-0.005, 0.10]
+
+robot_model_name: rm75_roh_a001_right
+
+tcp_xyz: [0.034, 0.023, 0.106]
+down_rpy: [-3.141592653589793, 0.0, 0.0]
+grasp_tilt_degrees: [25.0, 15.0, 30.0]
+grasp_yaw_degrees: [0.0, 30.0, -30.0, 60.0, -60.0, 90.0]
+pregrasp_height: 0.15
+lift_height: 0.15
+
+observation_xyz: [0.231402, 0.000371, 0.442864]
+observation_quaternion: [-0.000719, 0.999790, 0.000810, 0.020498]
+observation_settle_time: 0.5
+observation_target_timeout: 8.0
+
+table_enabled: true
+table_id: visual_grasp_table
+table_top_z: -0.017
+table_center_xy: [0.30, 0.0]
+table_size: [0.80, 0.80, 0.04]
+
+velocity_scaling: 0.1
+acceleration_scaling: 0.1
+position_tolerance: 0.005
+orientation_tolerance: 0.02
+planning_time: 5.0
+planning_attempts: 10
+cartesian_eef_step: 0.005
+cartesian_min_fraction: 0.98
+
+hand_open: [0, 0, 0, 0, 0, 0]
+hand_preshape: [250, 250, 250, 0, 0, 0]
+hand_close: [800, 800, 800, 0, 0, 0]
+hand_ack_timeout: 2.0
+hand_motion_timeout: 5.0
+hand_poll_period: 0.2
+hand_read_retry_period: 0.1
+hand_stable_samples: 3
+hand_stable_delta: 1000
+hand_open_max_position: 5000
+hand_min_close_position: 20000
+hand_modbus_port: 1
+hand_baudrate: 115200
+hand_modbus_timeout: 2
+hand_mode_ack_timeout: 3.0
+hand_device: 2
+
+reset_vision_service: /yolo/reset_target

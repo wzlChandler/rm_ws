@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="rm75_roh_apple_sim" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find rm75_roh_description)/urdf/rm75_roh_a001_right.urdf.xacro"/>
+  <xacro:include filename="$(find rm_description)/urdf/RM75/rm_75.transmission.xacro"/>
+  <xacro:include filename="$(find rm_description)/urdf/RM75/rm_75.gazebo.xacro"/>
+  <xacro:rm_arm_transmission prefix=""/>
+  <xacro:rm_arm_gazebo prefix=""/>
+  <xacro:macro name="hand_transmission" params="joint motor">
+    <transmission name="${motor}_trans"><type>transmission_interface/SimpleTransmission</type><joint name="${joint}"><hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface></joint><actuator name="${motor}"><mechanicalReduction>1</mechanicalReduction></actuator></transmission>
+  </xacro:macro>
+  <xacro:hand_transmission joint="if_slider_link_j" motor="if_slider_motor"/>
+  <xacro:hand_transmission joint="mf_slider_link_j" motor="mf_slider_motor"/>
+  <xacro:hand_transmission joint="rf_slider_link_j" motor="rf_slider_motor"/>
+  <xacro:hand_transmission joint="lf_slider_link_j" motor="lf_slider_motor"/>
+  <xacro:hand_transmission joint="th_slider_link_j" motor="th_slider_motor"/>
+  <xacro:hand_transmission joint="th_root_link_j" motor="th_root_motor"/>
+  <gazebo><plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"><robotNamespace>/</robotNamespace></plugin></gazebo>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed"><parent link="world"/><child link="base_link"/><origin xyz="0 0 1.0" rpy="3.14159 0 0"/></joint>
+</robot>

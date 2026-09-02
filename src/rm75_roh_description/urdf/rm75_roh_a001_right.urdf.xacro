@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="rm75_roh_a001_right" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Keep vendor descriptions separate; this wrapper only defines their physical attachment. -->
+  <xacro:include filename="$(find rm_description)/urdf/RM75/rm_75.urdf"/>
+  <xacro:include filename="$(find rohand_urdf_ros1)/urdf/rohand_right.urdf"/>
+
+  <xacro:arg name="mount_xyz" default="0 0 0"/>
+  <xacro:arg name="mount_rpy" default="0 1.5708 3.14159"/>
+  <joint name="rm_to_rohand_joint" type="fixed">
+    <parent link="Link7"/>
+    <child link="hand_base_link"/>
+    <origin xyz="$(arg mount_xyz)" rpy="$(arg mount_rpy)"/>
+  </joint>
+</robot>

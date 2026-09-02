@@ -1,0 +1,21 @@
+<launch>
+  <arg name="arm_ip" default="192.168.1.18"/>
+  <arg name="arm_port" default="8080"/>
+  <arg name="start_arm_driver" default="true"/>
+  <arg name="start_hand_driver" default="true"/>
+  <arg name="mount_xyz" default="0 0 0"/>
+  <arg name="mount_rpy" default="0 1.5708 3.14159"/>
+
+  <include if="$(arg start_arm_driver)" file="$(find rm_driver)/launch/rm_75_driver.launch">
+    <arg name="Arm_IP" value="$(arg arm_ip)"/>
+    <arg name="Arm_Port" value="$(arg arm_port)"/>
+    <arg name="Udp_hand" value="false"/>
+  </include>
+
+  <include if="$(arg start_hand_driver)" file="$(find rm_hand_driver)/launch/hand.launch"/>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find rm75_roh_description)/urdf/rm75_roh_a001_right.urdf.xacro mount_xyz:='$(arg mount_xyz)' mount_rpy:='$(arg mount_rpy)'"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+  <node pkg="rm75_roh_description" type="a001_hand_state_publisher.py" name="a001_hand_state_publisher" output="screen"/>
+</launch>

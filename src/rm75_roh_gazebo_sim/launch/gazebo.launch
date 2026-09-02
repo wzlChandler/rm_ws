@@ -1,0 +1,49 @@
+<launch>
+  <!-- 仿真参数 -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <!-- 安装参数:默认顶装(与真机一致),base_link 位于世界 (0,0,1.0) -->
+  <arg name="mount_xyz" default="0 0 0"/>
+  <arg name="mount_rpy" default="3.14159 -1.5708 3.14159"/>
+  <arg name="base_z" default="1.0"/>
+  <arg name="apple_x" default="0.0"/>
+  <arg name="apple_y" default="0.0"/>
+  <arg name="apple_z" default="0.155"/>
+
+  <!-- 空世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="physics" value="ode"/>
+  </include>
+
+  <!-- 加载机器人描述:基于 rm75_roh_description 的完整仿真 URDF -->
+  <param name="robot_description"
+         command="$(find rm75_roh_gazebo_sim)/scripts/generate_urdf.sh
+                  mount_xyz:='$(arg mount_xyz)' mount_rpy:='$(arg mount_rpy)'"/>
+
+  <!-- 生成机器人到 Gazebo(顶装固定) -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model rm75_roh -param robot_description"/>
+
+  <!-- 苹果直接放在地面(由抓取脚本放置) -->
+  <node name="spawn_apple" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-sdf -file $(find rm75_roh_gazebo_sim)/models/apple.sdf -model apple -x $(arg apple_x) -y $(arg apple_y) -z $(arg apple_z)"/>
+
+  <!-- 控制器 -->
+  <rosparam file="$(find rm75_roh_gazebo_sim)/config/rm75_roh_control.yaml" command="load"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+        args="joint_state_controller arm_joint_controller"/>
+
+  <!-- 初始位姿保持(手臂零位 + 手爪张开),保证关节持续受控 -->
+  <node name="hold_init_pose" pkg="rm75_roh_gazebo_sim" type="hold_init_pose.py" respawn="false" output="screen"/>
+
+  <!-- TF 发布 -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+</launch>

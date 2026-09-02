@@ -1,0 +1,12 @@
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"><arg name="gui" value="$(arg gui)"/><arg name="headless" value="$(arg headless)"/><arg name="use_sim_time" value="true"/></include>
+  <param name="robot_description" command="$(find rm75_roh_apple_grasp_sim)/scripts/generate_urdf.sh"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_arm" args="-urdf -model rm75_roh -param robot_description" output="screen"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_table" args="-sdf -file $(find rm75_roh_apple_grasp_sim)/models/table.sdf -model table" output="screen"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_apple" args="-sdf -file $(find rm75_roh_apple_grasp_sim)/models/apple.sdf -model apple -x -0.105 -y 0.0 -z 0.245" output="screen"/>
+  <rosparam file="$(find rm75_roh_apple_grasp_sim)/config/controllers.yaml" command="load"/>
+  <node pkg="controller_manager" type="spawner" name="controller_spawner" args="joint_state_controller arm_joint_controller if_slider_controller mf_slider_controller rf_slider_controller lf_slider_controller th_slider_controller th_root_controller" output="screen"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+</launch>

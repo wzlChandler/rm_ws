@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rm75_roh_description</name>
+  <version>0.1.0</version>
+  <description>Composite RM75 and ROH-A001 right-hand robot description.</description>
+  <maintainer email="test@todo.todo">test</maintainer>
+  <license>BSD-3-Clause</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>rospkg</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>rm_description</exec_depend>
+  <exec_depend>rohand_urdf_ros1</exec_depend>
+  <exec_depend>xacro</exec_depend>
+</package>

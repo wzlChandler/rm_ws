@@ -1,0 +1,67 @@
+<launch>
+  <arg name="execute" default="true"/>
+  <arg name="execution_stage" default="full"/>
+  <arg name="arm_ip" default="192.168.1.18"/>
+  <arg name="arm_port" default="8080"/>
+  <arg name="use_rviz" default="true"/>
+  <arg name="namespace_prefix" default="rm75_d435_handeye"/>
+  <arg name="model_path" default="/home/test/deeplearning/ultralytics-8.3.163/runs/train/boll_yolo_model6/weights/best.pt"/>
+  <arg name="yolo_python" default="/home/test/rm_ws/.venv_ros_yolo/bin/python"/>
+
+  <include file="$(find rm75_roh_moveit_config)/launch/realrobot.launch">
+    <arg name="arm_ip" value="$(arg arm_ip)"/>
+    <arg name="arm_port" value="$(arg arm_port)"/>
+    <arg name="use_rviz" value="$(arg use_rviz)"/>
+  </include>
+
+  <include file="$(find easy_handeye)/launch/publish.launch">
+    <arg name="namespace_prefix" value="$(arg namespace_prefix)"/>
+    <arg name="eye_on_hand" value="true"/>
+  </include>
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="enable_depth" value="true"/>
+    <arg name="enable_color" value="true"/>
+    <arg name="color_width" value="424"/>
+    <arg name="color_height" value="240"/>
+    <arg name="color_fps" value="15"/>
+    <arg name="depth_width" value="424"/>
+    <arg name="depth_height" value="240"/>
+    <arg name="depth_fps" value="15"/>
+    <arg name="align_depth" value="true"/>
+    <arg name="initial_reset" value="false"/>
+  </include>
+
+  <node name="yolo_detector"
+        pkg="visual_grasping"
+        type="realsense_yolo_detector.py"
+        output="log"
+        respawn="true"
+        respawn_delay="3.0"
+        launch-prefix="bash -c 'sleep 5; exec &quot;$@&quot;' -- $(arg yolo_python)">
+    <param name="model_path" value="$(arg model_path)"/>
+    <param name="target_object" value="ball"/>
+    <param name="conf_thres" value="0.5"/>
+    <param name="stop_when_found" value="false"/>
+    <param name="shutdown_when_found" value="false"/>
+    <param name="enable_view" value="true"/>
+    <param name="base_frame" value="camera_link"/>
+    <param name="depth_sampling" value="median_roi"/>
+    <param name="roi_scale" value="0.2"/>
+    <param name="republish_rate" value="10.0"/>
+    <param name="color_topic" value="/camera/color/image_raw"/>
+    <param name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
+    <param name="camera_info_topic" value="/camera/color/camera_info"/>
+  </node>
+
+  <rosparam command="load" file="$(find rm75_roh_visual_grasping)/config/grasp.yaml" ns="visual_grasp"/>
+  <param name="visual_grasp/execute" value="$(arg execute)"/>
+  <param name="visual_grasp/execution_stage" value="$(arg execution_stage)"/>
+  <param name="visual_grasp/prompt_enabled" value="true"/>
+
+  <node name="visual_grasp"
+        pkg="rm75_roh_visual_grasping"
+        type="visual_grasp_node.py"
+        launch-prefix="gnome-terminal --wait --"
+        output="screen"/>
+</launch>

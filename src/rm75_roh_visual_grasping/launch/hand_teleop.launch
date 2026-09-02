@@ -1,0 +1,34 @@
+<launch>
+  <arg name="camera_index" default="0"/>
+  <arg name="enabled" default="false"/>
+  <arg name="preview" default="true"/>
+  <arg name="python" default="/home/test/rm_ws/.venv_ros_yolo/bin/python"/>
+  <arg name="deadband" default="6"/>
+  <arg name="filter_min_cutoff" default="0.8"/>
+  <arg name="filter_beta" default="0.4"/>
+  <arg name="landmark_min_cutoff" default="1.0"/>
+  <arg name="landmark_beta" default="0.3"/>
+
+  <node pkg="rm75_roh_visual_grasping"
+        type="hand_teleop_node.py"
+        name="hand_teleop"
+        launch-prefix="$(arg python)"
+        output="screen">
+    <param name="camera_index" value="$(arg camera_index)"/>
+    <param name="camera_width" value="640"/>
+    <param name="camera_height" value="480"/>
+    <param name="camera_fps" value="30"/>
+    <param name="confidence" value="0.7"/>
+    <param name="model_complexity" value="1"/>
+    <param name="calibration_duration" value="2.0"/>
+    <param name="deadband" value="$(arg deadband)"/>
+    <param name="filter_min_cutoff" value="$(arg filter_min_cutoff)"/>
+    <param name="filter_beta" value="$(arg filter_beta)"/>
+    <param name="filter_derivative_cutoff" value="1.0"/>
+    <param name="landmark_min_cutoff" value="$(arg landmark_min_cutoff)"/>
+    <param name="landmark_beta" value="$(arg landmark_beta)"/>
+    <param name="landmark_derivative_cutoff" value="1.0"/>
+    <param name="enabled" value="$(arg enabled)"/>
+    <param name="preview" value="$(arg preview)"/>
+  </node>
+</launch>

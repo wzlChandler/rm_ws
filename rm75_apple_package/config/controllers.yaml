@@ -1,0 +1,22 @@
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+arm_joint_controller:
+  type: position_controllers/JointTrajectoryController
+  joints: [joint1, joint2, joint3, joint4, joint5, joint6, joint7]
+  gains:
+    joint1: {p: 1000.0, i: 0.0, d: 0.5}
+    joint2: {p: 1000.0, i: 0.0, d: 0.5}
+    joint3: {p: 1000.0, i: 0.0, d: 0.5}
+    joint4: {p: 1000.0, i: 0.0, d: 0.5}
+    joint5: {p: 1000.0, i: 0.0, d: 0.5}
+    joint6: {p: 1000.0, i: 0.0, d: 0.5}
+    joint7: {p: 2000.0, i: 0.0, d: 2.0}
+
+if_slider_controller: {type: position_controllers/JointPositionController, joint: if_slider_link_j, pid: {p: 50.0, i: 0.0, d: 2.0}}
+mf_slider_controller: {type: position_controllers/JointPositionController, joint: mf_slider_link_j, pid: {p: 50.0, i: 0.0, d: 2.0}}
+rf_slider_controller: {type: position_controllers/JointPositionController, joint: rf_slider_link_j, pid: {p: 50.0, i: 0.0, d: 2.0}}
+lf_slider_controller: {type: position_controllers/JointPositionController, joint: lf_slider_link_j, pid: {p: 50.0, i: 0.0, d: 2.0}}
+th_slider_controller: {type: position_controllers/JointPositionController, joint: th_slider_link_j, pid: {p: 50.0, i: 0.0, d: 2.0}}
+th_root_controller: {type: position_controllers/JointPositionController, joint: th_root_link_j, pid: {p: 40.0, i: 0.0, d: 8.0}}

@@ -1,0 +1,7 @@
+<launch>
+  <!-- Reuses the model and TF tree already started by realrobot.launch. -->
+  <arg name="use_rviz" default="true"/>
+
+  <node pkg="rm75_roh_apple_grasp_sim" type="apple_marker.py" name="apple_marker" output="screen"/>
+  <node if="$(arg use_rviz)" pkg="rviz" type="rviz" name="apple_snapshot_rviz" args="-d $(find rm75_roh_apple_grasp_sim)/config/current_pose.rviz"/>
+</launch>

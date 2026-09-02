@@ -1,0 +1,43 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+  - Class: rviz/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz/RobotModel
+      Description Source: Parameter
+      Description Parameter: /robot_description
+      Enabled: true
+      Name: Current RM75 ROH Pose
+      TF Prefix: ""
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /apple_snapshot/apple
+      Name: Apple In Hand
+    - Class: rviz/Grid
+      Enabled: true
+      Name: Grid
+  Global Options:
+    Fixed Frame: base_link
+    Background Color: 48; 48; 48
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+  Current Tool: 1
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 1.5
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0.3
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.5
+      Target Frame: base_link
+      Yaw: 0.8

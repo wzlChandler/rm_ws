@@ -1,0 +1,35 @@
+# 关节状态控制器
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+# 手臂 7 轴关节轨迹控制器
+arm_joint_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - joint7
+  gains:
+    joint1: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint2: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint3: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint4: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint5: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint6: {p: 2000.0, i: 0.0, d: 1.0, i_clamp: 0.0}
+    joint7: {p: 2500.0, i: 0.0, d: 3.0, i_clamp: 0.0}
+
+# gazebo_ros_control 插件级 PID 增益(关节驱动所必需)
+gazebo_ros_control:
+  pid_gains:
+    joint1: {p: 2000.0, i: 0.0, d: 1.0}
+    joint2: {p: 2000.0, i: 0.0, d: 1.0}
+    joint3: {p: 2000.0, i: 0.0, d: 1.0}
+    joint4: {p: 2000.0, i: 0.0, d: 1.0}
+    joint5: {p: 2000.0, i: 0.0, d: 1.0}
+    joint6: {p: 2000.0, i: 0.0, d: 1.0}
+    joint7: {p: 2500.0, i: 0.0, d: 3.0}

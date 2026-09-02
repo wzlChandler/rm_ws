@@ -1,0 +1,32 @@
+<launch>
+  <arg name="arm_ip" default="192.168.1.18"/>
+  <arg name="arm_port" default="8080"/>
+  <arg name="mount_xyz" default="0 0 0"/>
+  <arg name="mount_rpy" default="0 1.5708 3.14159"/>
+  <arg name="use_rviz" default="true"/>
+
+  <include file="$(find rm75_roh_bringup)/launch/rm75_roh_a001.launch">
+    <arg name="arm_ip" value="$(arg arm_ip)"/>
+    <arg name="arm_port" value="$(arg arm_port)"/>
+    <arg name="start_arm_driver" value="true"/>
+    <arg name="start_hand_driver" value="true"/>
+    <arg name="mount_xyz" value="$(arg mount_xyz)"/>
+    <arg name="mount_rpy" value="$(arg mount_rpy)"/>
+  </include>
+
+  <!-- Converts MoveIt's FollowJointTrajectory action into RM driver's JointPos commands. -->
+  <include file="$(find rm_control)/launch/rm_75_control.launch">
+    <arg name="Arm_Dof" value="7"/>
+  </include>
+
+  <include file="$(find rm75_roh_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="false"/>
+    <arg name="mount_xyz" value="$(arg mount_xyz)"/>
+    <arg name="mount_rpy" value="$(arg mount_rpy)"/>
+  </include>
+
+  <include if="$(arg use_rviz)" file="$(find rm75_roh_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="rviz_config" value="$(find rm75_roh_moveit_config)/launch/moveit.rviz"/>
+  </include>
+</launch>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot name="rm75_roh_sim" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- 仿真组装:完全复用 rm75_roh_description 的 URDF(手臂 RM75 + 手爪 ROH-A001) -->
+  <xacro:include filename="$(find rm75_roh_description)/urdf/rm75_roh_a001_right.urdf.xacro"/>
+
+  <!-- 复用睿尔曼官方仿真宏:手臂 7 关节传动 + 自碰撞 -->
+  <xacro:include filename="$(find rm_description)/urdf/RM75/rm_75.transmission.xacro"/>
+  <xacro:include filename="$(find rm_description)/urdf/RM75/rm_75.gazebo.xacro"/>
+  <xacro:rm_arm_transmission prefix=""/>
+  <xacro:rm_arm_gazebo prefix=""/>
+
+          
+  <!-- 手爪被动铰链加阻尼,防止在仿真中因重力乱晃 -->
+  <gazebo reference="if_slider_abpart_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="if_proximal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="if_distal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="if_connecting_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="mf_slider_abpart_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="mf_proximal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="mf_distal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="mf_connecting_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="rf_slider_abpart_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="rf_proximal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="rf_distal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="rf_connecting_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="lf_slider_abpart_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="lf_proximal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="lf_distal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="lf_connecting_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="th_proximal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="th_connecting_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+  <gazebo reference="th_distal_link"><implicitSpringDamper>true</implicitSpringDamper><damping>5</damping><stiffness>30</stiffness></gazebo>
+
+  <!-- gazebo_ros_control 插件 -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+
+  <!-- 手爪驱动关节限位补充:URDF 中 effort/velocity 为 0,仿真中需覆盖 -->
+  <gazebo reference="if_slider_link"><maxEffort>50</maxEffort><maxVelocity>0.1</maxVelocity></gazebo>
+  <gazebo reference="mf_slider_link"><maxEffort>50</maxEffort><maxVelocity>0.1</maxVelocity></gazebo>
+  <gazebo reference="rf_slider_link"><maxEffort>50</maxEffort><maxVelocity>0.1</maxVelocity></gazebo>
+  <gazebo reference="lf_slider_link"><maxEffort>50</maxEffort><maxVelocity>0.1</maxVelocity></gazebo>
+  <gazebo reference="th_slider_link"><maxEffort>50</maxEffort><maxVelocity>0.1</maxVelocity></gazebo>
+  <gazebo reference="th_root_link"><maxEffort>20</maxEffort><maxVelocity>0.5</maxVelocity></gazebo>
+  <gazebo reference="joint1"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint2"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint3"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint4"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint5"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint6"><implicitSpringDamper>true</implicitSpringDamper><damping>2.0</damping></gazebo>
+  <gazebo reference="joint7"><implicitSpringDamper>true</implicitSpringDamper><damping>6.0</damping></gazebo>
+
+
+        
+  <!-- 固定基座到世界:base_link 位于 (0,0,1.0),绕 X 翻转 180 度(顶装倒挂) -->
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.73" rpy="3.14159 0 0"/>
+  </joint>
+</robot>

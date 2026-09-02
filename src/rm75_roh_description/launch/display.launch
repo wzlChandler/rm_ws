@@ -1,0 +1,12 @@
+<launch>
+  <arg name="mount_xyz" default="0 0 0"/>
+  <arg name="mount_rpy" default="0 1.5708 3.14159"/>
+  <arg name="use_gui" default="true"/>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find rm75_roh_description)/urdf/rm75_roh_a001_right.urdf.xacro mount_xyz:='$(arg mount_xyz)' mount_rpy:='$(arg mount_rpy)'"/>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" unless="$(arg use_gui)"/>
+  <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" if="$(arg use_gui)"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+</launch>

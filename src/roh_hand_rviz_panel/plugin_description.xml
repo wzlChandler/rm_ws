@@ -1,0 +1,7 @@
+<library path="lib/libroh_hand_rviz_panel">
+  <class name="roh_hand_rviz_panel/HandPanel"
+         type="roh_hand_rviz_panel::HandPanel"
+         base_class_type="rviz::Panel">
+    <description>Controls the six actuators of a ROH A001 hand.</description>
+  </class>
+</library>
