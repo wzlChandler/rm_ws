@@ -5,6 +5,7 @@ from visualization_msgs.msg import Marker
 
 
 def main():
+    print("Publishing apple marker in hand frame...")
     rospy.init_node("apple_marker")
     publisher = rospy.Publisher("/apple_snapshot/apple", Marker,
                                 queue_size=1, latch=True)
